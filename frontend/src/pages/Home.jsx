@@ -66,9 +66,6 @@ export default function Home() {
                     <p className="text-muted mb-1" style={{ fontSize: "0.9rem" }}>
                       {post.location}
                     </p>
-                    <p className="text-muted mb-1" style={{ fontSize: "0.8rem" }}>
-                      {post.category}
-                    </p>
 
                     {post.price && (
                       <p className="mt-auto text-primary fw-semibold">₹ {post.price}</p>

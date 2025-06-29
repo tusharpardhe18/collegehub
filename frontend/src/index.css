@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap'); */
 
 * {
   font-family: "Outfit", sans-serif;
+/*  font-family: "Dosis", system-ui; */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
