@@ -36,38 +36,49 @@ export default function Home() {
         <p className="text-muted text-center">No posts yet.</p>
       ) : (
         <div className="row g-4">
-  {posts.map((post) => (
-    <div key={post._id} className="col-6 col-md-4 col-lg-3">
-      <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
-        {post.posterUrl && (
-          <img
-            src={post.posterUrl}
-            className="card-img-top"
-            alt={post.title}
-            style={{ height: "400px", objectFit: "cover" }}
-          />
-        )}
+          {posts.map((post) => (
+            <div key={post._id} className="col-6 col-md-4 col-lg-3">
+              <a
+                href={post.bookingLink || "#"}
+                target={post.bookingLink ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+                className="text-decoration-none"
+              >
+                <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
+                  {post.posterUrl && (
+                    <img
+                      src={post.posterUrl}
+                      className="card-img-top"
+                      alt={post.title}
+                      style={{ height: "400px", objectFit: "cover" }}
+                    />
+                  )}
 
-        <div className="card-body d-flex flex-column">
-          <small className="bg-dark text-white px-2 py-1 rounded mb-2" style={{ width: "fit-content" }}>
-            {post.date}
-          </small>
+                  <div className="card-body d-flex flex-column">
+                    <small
+                      className="bg-dark text-white px-2 py-1 rounded mb-2"
+                      style={{ width: "fit-content" }}
+                    >
+                      {post.date}
+                    </small>
 
-          <h5 className="card-title mb-1">{post.title}</h5>
-          <p className="text-muted mb-1" style={{ fontSize: "0.9rem" }}>{post.location}</p>
-          <p className="text-muted mb-1" style={{ fontSize: "0.8rem" }}>{post.category}</p>
+                    <h5 className="card-title mb-1">{post.title}</h5>
+                    <p className="text-muted mb-1" style={{ fontSize: "0.9rem" }}>
+                      {post.location}
+                    </p>
+                    <p className="text-muted mb-1" style={{ fontSize: "0.8rem" }}>
+                      {post.category}
+                    </p>
 
-          {post.price && (
-            <p className="mt-auto text-primary fw-semibold">
-              ₹ {post.price}
-            </p>
-          )}
+                    {post.price && (
+                      <p className="mt-auto text-primary fw-semibold">₹ {post.price}</p>
+                    )}
+                  </div>
+                </div>
+              </a>
+            </div>
+          ))}
         </div>
-      </div>
-    </div>
-  ))}
-</div>
-
       )}
     </div>
   );

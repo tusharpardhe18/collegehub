@@ -13,6 +13,7 @@ export default function PostForm() {
     location: "",
     price: "",
     date: "",
+    bookingLink: "",
   });
 
   const handleChange = (e) => {
@@ -121,6 +122,20 @@ export default function PostForm() {
             name="date"
             className="form-control"
             value={form.date}
+            onChange={handleChange}
+          />
+        </div>
+
+        {/* Booking Link */}
+        <div className="mb-3">
+          <label htmlFor="bookingLink" className="form-label">Booking Link</label>
+          <input 
+            type="url" 
+            className="form-control" 
+            id="bookingLink" 
+            name="bookingLink" 
+            placeholder="https://event-link" 
+            value={form.bookingLink} 
             onChange={handleChange}
           />
         </div>

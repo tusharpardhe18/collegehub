@@ -13,6 +13,7 @@ const postSchema = new mongoose.Schema(
     location: { type: String, default: '' },  // Location or venue
     price: { type: String, default: '' },     // ₹499 onwards
     date: { type: String, default: '' },      // e.g., "Sat, 5 Jul"
+    bookingLink: { type: String, required: false, } // booking link of the event
   },
   { timestamps: true }
 );

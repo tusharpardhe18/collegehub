@@ -6,7 +6,7 @@ const router = express.Router();
 // 📩 Create a post
 router.post('/', async (req, res) => {
   try {
-    const { category, title, description, posterUrl, location, price, date } = req.body;
+    const { category, title, description, posterUrl, location, price, date, bookingLink } = req.body;
 
     const newPost = new Post({
       category,
@@ -16,6 +16,7 @@ router.post('/', async (req, res) => {
       location,
       price,
       date,
+      bookingLink,
     });
 
     const savedPost = await newPost.save();
