@@ -113,3 +113,17 @@ body {
 h2, h5 {
   word-break: break-word;
 }
+
+/* Hide scrollbar for all elements */
+body {
+  overflow-y: scroll; /* Ensures space is reserved for scroll to prevent layout shift */
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.card p {
+  transition: max-height 0.3s ease;
+}

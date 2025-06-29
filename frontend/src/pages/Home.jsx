@@ -7,6 +7,7 @@ export default function Home() {
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [expandedId, setExpandedId] = useState(null); // 🆕 Track expanded card
 
   const category = searchParams.get("category") || "events";
 
@@ -21,6 +22,7 @@ export default function Home() {
         setPosts([]);
       } finally {
         setLoading(false);
+        setExpandedId(null); // 🆕 Reset on category change
       }
     };
 
@@ -42,9 +44,7 @@ export default function Home() {
           {loading ? (
             <div className="d-flex justify-content-center my-5">
               <div className="spinner-border text-light" role="status">
-                <span className="visually-hidden">
-                  Loading...
-                </span>
+                <span className="visually-hidden">Loading...</span>
               </div>
             </div>
           ) : posts.length === 0 ? (
@@ -55,6 +55,10 @@ export default function Home() {
                 <div
                   key={post._id}
                   className="card bg-white text-dark shadow-sm rounded-4 p-3"
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    setExpandedId(expandedId === post._id ? null : post._id)
+                  }
                 >
                   <small
                     className="bg-dark text-white px-2 py-1 rounded mb-2"
@@ -62,13 +66,23 @@ export default function Home() {
                   >
                     Posted on {post.date}
                   </small>
+
                   <h5 className="card-title mb-1">{post.title}</h5>
-                  <p
-                    className="text-muted mb-1"
-                    style={{ whiteSpace: "pre-wrap" }}
-                  >
-                    {post.description}
-                  </p>
+
+                  <AnimatePresence>
+                    {expandedId === post._id && (
+                      <motion.p
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-muted mb-1"
+                        style={{ whiteSpace: "pre-wrap", overflow: "hidden" }}
+                      >
+                        {post.description}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
             </div>
@@ -91,13 +105,9 @@ export default function Home() {
                             src={post.posterUrl}
                             className="card-img-top"
                             alt={post.title}
-                            style={{
-                              height: "400px",
-                              objectFit: "cover",
-                            }}
+                            style={{ height: "400px", objectFit: "cover" }}
                           />
                         )}
-
                         <div className="card-body d-flex flex-column">
                           <small
                             className="bg-dark text-white px-2 py-1 rounded mb-2"
@@ -105,18 +115,12 @@ export default function Home() {
                           >
                             {post.date}
                           </small>
-
                           <h5 className="card-title mb-1">{post.title}</h5>
-
                           {post.location && (
-                            <p
-                              className="text-muted mb-1"
-                              style={{ fontSize: "0.85rem" }}
-                            >
+                            <p className="text-muted mb-1" style={{ fontSize: "0.85rem" }}>
                               📍{post.location}
                             </p>
                           )}
-
                           {post.price && (
                             <p className="mt-auto text-primary fw-semibold">
                               ₹ {post.price}
