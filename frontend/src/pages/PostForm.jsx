@@ -65,77 +65,86 @@ export default function PostForm() {
           />
         </div>
 
-        {/* Description */}
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <textarea
-            name="description"
-            className="form-control"
-            rows="4"
-            value={form.description}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        {form.category !== "events" && (
+          <>
+            {/* Description */}
+            <div className="mb-3">
+              <label className="form-label">Description</label>
+              <textarea
+                name="description"
+                className="form-control"
+                rows="4"
+                value={form.description}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </>
+        )}
 
         {/* Poster URL */}
-        <div className="mb-3">
-          <label className="form-label">Poster Image URL</label>
-          <input
-            type="text"
-            name="posterUrl"
-            className="form-control"
-            value={form.posterUrl}
-            onChange={handleChange}
-          />
-        </div>
+        {form.category !== "noticeboard" && (
+          <>
+            {/* Poster URL */}
+            <div className="mb-3">
+              <label className="form-label">Poster Image URL</label>
+              <input
+                type="text"
+                name="posterUrl"
+                className="form-control"
+                value={form.posterUrl}
+                onChange={handleChange}
+              />
+            </div>
+            
+            {/* Location */}
+            <div className="mb-3">
+              <label className="form-label">Location</label>
+              <input
+                type="text"
+                name="location"
+                className="form-control"
+                value={form.location}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Location */}
-        <div className="mb-3">
-          <label className="form-label">Location</label>
-          <input
-            type="text"
-            name="location"
-            className="form-control"
-            value={form.location}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Price */}
+            <div className="mb-3">
+              <label className="form-label">Price (e.g. ₹499 onwards)</label>
+              <input
+                type="text"
+                name="price"
+                className="form-control"
+                value={form.price}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Price */}
-        <div className="mb-3">
-          <label className="form-label">Price (e.g. ₹499 onwards)</label>
-          <input
-            type="text"
-            name="price"
-            className="form-control"
-            value={form.price}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Booking Link */}
+            <div className="mb-3">
+              <label htmlFor="bookingLink" className="form-label">Booking Link</label>
+              <input 
+                type="url" 
+                className="form-control" 
+                id="bookingLink" 
+                name="bookingLink" 
+                placeholder="https://event-link" 
+                value={form.bookingLink} 
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        )}
 
         {/* Date */}
         <div className="mb-3">
-          <label className="form-label">Event Date (e.g. Sat, 5 Jul)</label>
+          <label className="form-label">Date (e.g. Sat, 5 Jul)</label>
           <input
             type="text"
             name="date"
             className="form-control"
             value={form.date}
-            onChange={handleChange}
-          />
-        </div>
-
-        {/* Booking Link */}
-        <div className="mb-3">
-          <label htmlFor="bookingLink" className="form-label">Booking Link</label>
-          <input 
-            type="url" 
-            className="form-control" 
-            id="bookingLink" 
-            name="bookingLink" 
-            placeholder="https://event-link" 
-            value={form.bookingLink} 
             onChange={handleChange}
           />
         </div>

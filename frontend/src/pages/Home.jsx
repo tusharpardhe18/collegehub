@@ -34,9 +34,25 @@ export default function Home() {
         <p className="text-muted text-center">Loading...</p>
       ) : posts.length === 0 ? (
         <p className="text-muted text-center">No posts yet.</p>
+      ) : category === "noticeboard" ? (
+        <div className="d-flex flex-column gap-3">
+          {posts.map((post) => (
+            <div key={post._id} className="card bg-white text-dark shadow-sm rounded-4 p-3">
+              <small
+                className="bg-dark text-white px-2 py-1 rounded mb-2"
+                style={{ width: "fit-content" }}
+              >
+                Posted on {post.date}
+              </small>
+              <h5 className="card-title mb-1">{post.title}</h5>
+              <p className="text-muted mb-1" style={{whiteSpace: "pre-wrap"}}>{post.description}</p>
+              
+            </div>
+          ))}
+        </div>
       ) : (
         <div className="row g-4">
-          {posts.map((post) => (
+          {posts.slice().sort((a,b) => new Date(a.date) - new Date(b.date)).map((post) => (
             <div key={post._id} className="col-6 col-md-4 col-lg-3">
               <a
                 href={post.bookingLink || "#"}
@@ -45,7 +61,7 @@ export default function Home() {
                 className="text-decoration-none"
               >
                 <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
-                  {post.posterUrl && (
+                  {post.category !== "noticeboard" && post.posterUrl && (
                     <img
                       src={post.posterUrl}
                       className="card-img-top"
@@ -63,12 +79,24 @@ export default function Home() {
                     </small>
 
                     <h5 className="card-title mb-1">{post.title}</h5>
-                    <p className="text-muted mb-1" style={{ fontSize: "0.9rem" }}>
-                      {post.location}
-                    </p>
 
-                    {post.price && (
-                      <p className="mt-auto text-primary fw-semibold">₹ {post.price}</p>
+                    {post.category === "noticeboard" && (
+                      <p className="text-muted mb-2" style={{whiteSpace: "pre-wrap", fontSize: "0.95rem"}}>
+                        {post.description}
+                      </p>
+                    )}
+
+                    {post.location && (
+                      <p className="text-muted mb-1" style={{ fontSize: "0.85rem" }}>
+                        📍{post.location}
+                    </p>
+                    )}
+                    
+
+                    {post.category !== "noticeboard" && post.price && (
+                      <p className="mt-auto text-primary fw-semibold">
+                        ₹ {post.price}
+                      </p>
                     )}
                   </div>
                 </div>

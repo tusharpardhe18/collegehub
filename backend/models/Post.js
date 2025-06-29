@@ -1,21 +1,24 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema(
   {
     category: {
       type: String,
-      enum: ['events', 'noticeboard', 'exchange', 'requests'],
+      enum: ["events", "noticeboard", "exchange", "requests"],
       required: true,
     },
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    posterUrl: { type: String, default: '' }, // Event image
-    location: { type: String, default: '' },  // Location or venue
-    price: { type: String, default: '' },     // ₹499 onwards
-    date: { type: String, default: '' },      // e.g., "Sat, 5 Jul"
-    bookingLink: { type: String, required: false, } // booking link of the event
+    title: {
+      type: String,
+      required: true,
+    },
+    description: String,
+    posterUrl: String,
+    location: String,
+    price: String,
+    date: String, // store event date as a readable string (e.g., "Sat, 5 Jul")
+    bookingLink: String,
   },
   { timestamps: true }
 );
 
-export default mongoose.model('Post', postSchema);
+export default mongoose.model("Post", postSchema);

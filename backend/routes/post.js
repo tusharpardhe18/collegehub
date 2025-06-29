@@ -1,42 +1,31 @@
-import express from 'express';
-import Post from '../models/Post.js';
+import express from "express";
+import Post from "../models/Post.js";
 
 const router = express.Router();
 
-// 📩 Create a post
-router.post('/', async (req, res) => {
+// POST new post
+router.post("/", async (req, res) => {
   try {
-    const { category, title, description, posterUrl, location, price, date, bookingLink } = req.body;
-
-    const newPost = new Post({
-      category,
-      title,
-      description,
-      posterUrl,
-      location,
-      price,
-      date,
-      bookingLink,
-    });
-
-    const savedPost = await newPost.save();
-    res.status(201).json(savedPost);
+    const newPost = new Post(req.body);
+    const saved = await newPost.save();
+    res.status(201).json(saved);
   } catch (err) {
-    console.error('Error saving post:', err);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error saving post:", err);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-// 📩 Get posts by category
-router.get('/', async (req, res) => {
+// GET posts (with optional filtering by category)
+router.get("/", async (req, res) => {
+  const { category } = req.query;
+
   try {
-    const { category } = req.query;
     const filter = category ? { category } : {};
     const posts = await Post.find(filter).sort({ createdAt: -1 });
     res.json(posts);
   } catch (err) {
-    console.error('Error fetching posts:', err);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error("Error fetching posts:", err);
+    res.status(500).json({ error: "Failed to fetch posts" });
   }
 });
 
