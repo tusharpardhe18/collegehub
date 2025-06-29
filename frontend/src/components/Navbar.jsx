@@ -1,4 +1,5 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // ✅ Framer Motion for animation
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -23,16 +24,19 @@ export default function Navbar() {
           />
         </Link>
 
-        {/* 🟣 Category Buttons Centered */}
+        {/* 🎯 Category Buttons with Animation */}
         <div className="d-flex justify-content-center flex-wrap gap-3 mx-auto my-2">
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat.key}
+              whileTap={{ scale: 0.92 }}
+              whileHover={{ scale: 1.08 }}
+              transition={{ type: "spring", stiffness: 300 }}
               className="nav-button btn btn-sm"
               onClick={() => navigate(`/?category=${cat.key}`)}
             >
               {cat.label}
-            </button>
+            </motion.button>
           ))}
         </div>
 

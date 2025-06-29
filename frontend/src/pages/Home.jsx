@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [searchParams] = useSearchParams();
@@ -30,81 +31,106 @@ export default function Home() {
     <div className="container mt-4">
       <h2 className="h5 mb-3 text-capitalize text-center">{category} Feed</h2>
 
-      {loading ? (
-        <p className="text-muted text-center">Loading...</p>
-      ) : posts.length === 0 ? (
-        <p className="text-muted text-center">No posts yet.</p>
-      ) : category === "noticeboard" ? (
-        <div className="d-flex flex-column gap-3">
-          {posts.map((post) => (
-            <div key={post._id} className="card bg-white text-dark shadow-sm rounded-4 p-3">
-              <small
-                className="bg-dark text-white px-2 py-1 rounded mb-2"
-                style={{ width: "fit-content" }}
-              >
-                Posted on {post.date}
-              </small>
-              <h5 className="card-title mb-1">{post.title}</h5>
-              <p className="text-muted mb-1" style={{whiteSpace: "pre-wrap"}}>{post.description}</p>
-              
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={category}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          {loading ? (
+            <div className="d-flex justify-content-center my-5">
+              <div className="spinner-border text-light" role="status">
+                <span className="visually-hidden">
+                  Loading...
+                </span>
+              </div>
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="row g-4">
-          {posts.slice().sort((a,b) => new Date(a.date) - new Date(b.date)).map((post) => (
-            <div key={post._id} className="col-6 col-md-4 col-lg-3">
-              <a
-                href={post.bookingLink || "#"}
-                target={post.bookingLink ? "_blank" : "_self"}
-                rel="noopener noreferrer"
-                className="text-decoration-none"
-              >
-                <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
-                  {post.category !== "noticeboard" && post.posterUrl && (
-                    <img
-                      src={post.posterUrl}
-                      className="card-img-top"
-                      alt={post.title}
-                      style={{ height: "400px", objectFit: "cover" }}
-                    />
-                  )}
-
-                  <div className="card-body d-flex flex-column">
-                    <small
-                      className="bg-dark text-white px-2 py-1 rounded mb-2"
-                      style={{ width: "fit-content" }}
-                    >
-                      {post.date}
-                    </small>
-
-                    <h5 className="card-title mb-1">{post.title}</h5>
-
-                    {post.category === "noticeboard" && (
-                      <p className="text-muted mb-2" style={{whiteSpace: "pre-wrap", fontSize: "0.95rem"}}>
-                        {post.description}
-                      </p>
-                    )}
-
-                    {post.location && (
-                      <p className="text-muted mb-1" style={{ fontSize: "0.85rem" }}>
-                        📍{post.location}
-                    </p>
-                    )}
-                    
-
-                    {post.category !== "noticeboard" && post.price && (
-                      <p className="mt-auto text-primary fw-semibold">
-                        ₹ {post.price}
-                      </p>
-                    )}
-                  </div>
+          ) : posts.length === 0 ? (
+            <p className="text-muted text-center">No posts yet.</p>
+          ) : category === "noticeboard" ? (
+            <div className="d-flex flex-column gap-3">
+              {posts.map((post) => (
+                <div
+                  key={post._id}
+                  className="card bg-white text-dark shadow-sm rounded-4 p-3"
+                >
+                  <small
+                    className="bg-dark text-white px-2 py-1 rounded mb-2"
+                    style={{ width: "fit-content" }}
+                  >
+                    Posted on {post.date}
+                  </small>
+                  <h5 className="card-title mb-1">{post.title}</h5>
+                  <p
+                    className="text-muted mb-1"
+                    style={{ whiteSpace: "pre-wrap" }}
+                  >
+                    {post.description}
+                  </p>
                 </div>
-              </a>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          ) : (
+            <div className="row g-4">
+              {posts
+                .slice()
+                .sort((a, b) => new Date(a.date) - new Date(b.date))
+                .map((post) => (
+                  <div key={post._id} className="col-6 col-md-4 col-lg-3">
+                    <a
+                      href={post.bookingLink || "#"}
+                      target={post.bookingLink ? "_blank" : "_self"}
+                      rel="noopener noreferrer"
+                      className="text-decoration-none"
+                    >
+                      <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
+                        {post.posterUrl && (
+                          <img
+                            src={post.posterUrl}
+                            className="card-img-top"
+                            alt={post.title}
+                            style={{
+                              height: "400px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        )}
+
+                        <div className="card-body d-flex flex-column">
+                          <small
+                            className="bg-dark text-white px-2 py-1 rounded mb-2"
+                            style={{ width: "fit-content" }}
+                          >
+                            {post.date}
+                          </small>
+
+                          <h5 className="card-title mb-1">{post.title}</h5>
+
+                          {post.location && (
+                            <p
+                              className="text-muted mb-1"
+                              style={{ fontSize: "0.85rem" }}
+                            >
+                              📍{post.location}
+                            </p>
+                          )}
+
+                          {post.price && (
+                            <p className="mt-auto text-primary fw-semibold">
+                              ₹ {post.price}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                ))}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
