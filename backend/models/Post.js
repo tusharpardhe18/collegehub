@@ -17,6 +17,9 @@ const postSchema = new mongoose.Schema(
     price: String,
     date: String, // store event date as a readable string (e.g., "Sat, 5 Jul")
     bookingLink: String,
+    mode: String,
+    instagram: String,
+    
   },
   { timestamps: true }
 );

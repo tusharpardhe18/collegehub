@@ -7,7 +7,7 @@ export default function Home() {
   const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [expandedId, setExpandedId] = useState(null); // 🆕 Track expanded card
+  const [expandedId, setExpandedId] = useState(null);
 
   const category = searchParams.get("category") || "events";
 
@@ -22,7 +22,7 @@ export default function Home() {
         setPosts([]);
       } finally {
         setLoading(false);
-        setExpandedId(null); // 🆕 Reset on category change
+        setExpandedId(null);
       }
     };
 
@@ -60,15 +60,10 @@ export default function Home() {
                     setExpandedId(expandedId === post._id ? null : post._id)
                   }
                 >
-                  <small
-                    className="bg-dark text-white px-2 py-1 rounded mb-2"
-                    style={{ width: "fit-content" }}
-                  >
+                  <small className="bg-dark text-white px-2 py-1 rounded mb-2" style={{ width: "fit-content" }}>
                     Posted on {post.date}
                   </small>
-
                   <h5 className="card-title mb-1">{post.title}</h5>
-
                   <AnimatePresence>
                     {expandedId === post._id && (
                       <motion.p
@@ -83,6 +78,62 @@ export default function Home() {
                       </motion.p>
                     )}
                   </AnimatePresence>
+                </div>
+              ))}
+            </div>
+          ) : category === "exchange" ? (
+            <div className="row g-4">
+              {posts.map((post) => (
+                <div key={post._id} className="col-12 col-sm-6 col-md-4 col-lg-3">
+                  <div className="card h-100 border-0 bg-white text-dark shadow-sm rounded-4 overflow-hidden">
+                    {post.posterUrl && (
+                      <img
+                        src={post.posterUrl}
+                        className="card-img-top"
+                        alt={post.title}
+                        style={{ height: "250px", objectFit: "cover" }}
+                      />
+                    )}
+                    <div className="card-body d-flex flex-column">
+                      <small className="bg-dark text-white px-2 py-1 rounded mb-2" style={{ width: "fit-content" }}>
+                        {post.date || "Recently Posted"}
+                      </small>
+
+                      <h5 className="card-title mb-1">{post.title}</h5>
+
+                      <p className="text-muted mb-2" style={{ fontSize: "0.85rem" }}>
+                        {post.description}
+                      </p>
+
+                      {post.location && (
+                        <p className="text-muted mb-1" style={{ fontSize: "0.85rem" }}>
+                          📍 {post.location}
+                        </p>
+                      )}
+
+                      <p className="mb-1" style={{ fontSize: "0.9rem" }}>
+                        💸 {post.price ? `₹ ${post.price}` : "Free"}
+                      </p>
+
+                      {post.mode && (
+                        <p className="badge bg-info text-dark w-fit-content mb-2" style={{ fontSize: "0.75rem" }}>
+                          {post.mode}
+                        </p>
+                      )}
+
+                      {post.instagram && (
+                        <a
+                          href={post.instagram}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-decoration-none text-primary mt-auto"
+                          style={{ fontSize: "0.9rem" }}
+                        >
+                          📸 Ping Me!
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
